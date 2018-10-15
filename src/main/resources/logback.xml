@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <variable name="SIMPLE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSSZ} [%X{Leap-Request-Context}] [%thread] %-5level %logger - %msg %n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${SIMPLE_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>TRACE</level>
+        </filter>
+    </appender>
+
+    <appender name="FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/contacts.log</file>
+        <encoder>
+            <pattern>${SIMPLE_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>logs/contacts.%i.log.gz</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>100</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>25MB</maxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <root>
+        <level value="WARN"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
